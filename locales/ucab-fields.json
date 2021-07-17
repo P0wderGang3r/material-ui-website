@@ -1,0 +1,18 @@
+{
+  "shipment":
+  {
+    "field1": "id",
+    "field2": "title",
+    "field3": "delivery_date_time",
+    "field4": "city",
+    "field5": "street",
+    "field6": "building"
+  },
+  "cart":
+  {
+    "field1": "id",
+    "field2": "title",
+    "field3": "purchase_amount",
+    "field4": "price"
+  }
+}

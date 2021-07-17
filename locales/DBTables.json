@@ -1,0 +1,68 @@
+{
+  "category":
+  {
+    "field1": "id",
+    "field2": "name"
+  },
+  "checklist":
+  {
+    "field1": "id",
+    "field2": "top_id",
+    "field3": "bot_id",
+    "field4": "purchase_id",
+    "field5": "product_article_id",
+    "field6": "purchase_amount"
+  },
+  "delivery":
+  {
+    "field1": "id",
+    "field2": "delivery_address_id",
+    "field3": "delivery_date_time",
+    "field4": "delivery_status",
+    "field5": "checklist_top_id"
+  },
+  "delivery_address":
+  {
+    "field1": "id",
+    "field2": "city",
+    "field3": "street",
+    "field4": "building"
+  },
+  "product":
+  {
+    "field1": "id",
+    "field2": "category_id",
+    "field3": "storage_id",
+    "field4": "amount",
+    "field5": "price"
+  },
+  "product_article":
+  {
+    "field1": "id",
+    "field2": "product_id",
+    "field3": "title",
+    "field4": "description",
+    "field5": "short_description",
+    "field6": "picture_link"
+  },
+  "purchase":
+  {
+    "field1": "id",
+    "field2": "user_profile_id",
+    "field3": "total_price",
+    "field4": "checklist_top_id"
+  },
+  "storage":
+  {
+    "field1": "id",
+    "field2": "city",
+    "field3": "street",
+    "field4": "building"
+  },
+  "user_profiles":
+  {
+    "field1": "username",
+    "field2": "password",
+    "field3": "role"
+  }
+}
