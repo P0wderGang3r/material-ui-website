@@ -2,7 +2,7 @@
 Веб-сайт для летней практики на базе Node.js и material-ui <br>
 Выполнил Скопецкий Анатолий, б8118-09.03.04прогин <br>
 
-Первичная проведенная инициализация <br>
+Установленные node.js расширения <br>
 npx create-next-app <br>
 npm install sass <br>
 npm install @material-ui/core <br>
