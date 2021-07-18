@@ -86,14 +86,14 @@ function DrawSelectors(locale) {
           onChange={handleCategorySwitch}
         >
           <MenuItem value="" disabled>
-            <em>Выберите категорию</em>
+            <em>{locale.text_categories[0]['text']}</em>
           </MenuItem>
-          <MenuItem value={0}>Без категории</MenuItem>
-          <MenuItem value={1}>ГКЛ, ГВЛ, ДСП,фанера</MenuItem>
-          <MenuItem value={2}>Пиломатериал, изделия из дерева</MenuItem>
-          <MenuItem value={3}>Строительные смеси</MenuItem>
-          <MenuItem value={4}>Металлопрофиль</MenuItem>
-          <MenuItem value={5}>Тепло и гидроизоляция, кровля</MenuItem>
+          <MenuItem value={0}>{locale.text_categories[1]['text']}</MenuItem>
+          <MenuItem value={1}>{locale.text_categories[2]['text']}</MenuItem>
+          <MenuItem value={2}>{locale.text_categories[3]['text']}</MenuItem>
+          <MenuItem value={3}>{locale.text_categories[4]['text']}</MenuItem>
+          <MenuItem value={4}>{locale.text_categories[5]['text']}</MenuItem>
+          <MenuItem value={5}>{locale.text_categories[6]['text']}</MenuItem>
         </Select>
       </FormControl>
     </Card>
@@ -186,7 +186,7 @@ function DrawAllElems(card_act_area_height, locale) {
                     onClick={() => {
                       if (Cookies.get('login') != "" && Cookies.get('login') != undefined)
                         if (Cookies.get(`numToBuy_${item.id}`) > 0) {
-                          alert('Товар успешно добавлен в корзину!')
+                          alert(locale.text_catalogue_messages[0][`text`])
                           fetch(`http://localhost:8000/api/cart/add?username=${Cookies.get('login')}&password=${Cookies.get('password')}&product_article_id=${item.id}&purchase_amount=${Cookies.get(`numToBuy_${item.id}`)}`,
                           {
                             method: 'POST',
@@ -196,10 +196,10 @@ function DrawAllElems(card_act_area_height, locale) {
                           })
                         }
                         else {
-                          alert('Неверно указанное количество товара для добавления в корзину')
+                          alert(locale.text_catalogue_messages[1][`text`])
                         }
                       else {
-                        alert('Для добавления товара в корзину необходимо войти в учетную запись пользователя')
+                        alert(locale.text_catalogue_messages[2][`text`])
                       }
                     }
                   }>

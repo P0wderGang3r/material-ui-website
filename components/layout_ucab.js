@@ -323,20 +323,21 @@ function main_content(locale, dbTable_ship, dbTable_cart) {
       },
     })
 
-    Cookies.set('time', '')
-    Cookies.set('city', '')
-    Cookies.set('street', '')
-    Cookies.set('building', '')
-    Cookies.set('email', '');
+    if (!(error1 & error2 & error3 & error4)) {
 
-    if (!(error1 & error2 & error3 & error4))
-      alert('Заказ успешно оформлен!')
-    else {
-      alert('В одном из полей ввода была допущена ошибка')
-    }
+      Cookies.set('time', '')
+      Cookies.set('city', '')
+      Cookies.set('street', '')
+      Cookies.set('building', '')
+      Cookies.set('email', '')
 
-    if (!(error1 & error2 & error3 & error4))
+      alert(locale.text_ucab_messages[0][`text`])
+
       window.location.reload()
+    }
+    else {
+      alert(locale.text_ucab_messages[1][`text`])
+    }
   }
 
   const openOrClose = () => {
@@ -350,7 +351,7 @@ function main_content(locale, dbTable_ship, dbTable_cart) {
     Cookies.set('city', '')
     Cookies.set('street', '')
     Cookies.set('building', '')
-    Cookies.set('email', '');
+    Cookies.set('email', '')
 
     setIsOpened(!isOpened)
   }
@@ -363,7 +364,7 @@ function main_content(locale, dbTable_ship, dbTable_cart) {
       },
     })
 
-    alert('Корзина успешно очищена!');
+    alert(locale.text_ucab_messages[2][`text`]);
     window.location.reload();
   }
 
