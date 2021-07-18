@@ -18,7 +18,7 @@ export default function layout_start_page({children}) {
         <Button title = "Русский язык"
           onClick = {() => { alert('Язык успешно изменен на русский!'); window.location.reload(); }} color="primary">Русский язык</Button>
         <Button title = "Английский язык"
-          onClick = {() => { alert('Язык успешно изменен на английский!'); window.location.reload(); }} color="primary">Английский язык</Button>
+          onClick = {() => { alert('Язык успешно изменен на английский!'); window.location.reload(); }} color="primary" disabled>Английский язык</Button>
       </ButtonGroup>
     </div>
   )
