@@ -11,6 +11,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import SearchIcon from '@material-ui/icons/Search'
 
 import React, { useState, useEffect } from 'react'
+
 import Cookies from 'js-cookie'
 
 const locale_ru = require('/locales/locale-ru.json')
