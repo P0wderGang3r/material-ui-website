@@ -15,6 +15,50 @@ import Cookies from 'js-cookie'
 
 const locale_ru = require('/locales/locale-ru.json')
 
+function loginInfo(username, password, locale) {
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([]);
+
+  // Примечание: пустой массив зависимостей [] означает, что
+  // этот useEffect будет запущен один раз
+  // аналогично componentDidMount()
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/users/authadmin?username=${username}&password=${password}`, {
+      method: 'GET',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setItems(result);
+        },
+        // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(),
+        // чтобы не перехватывать исключения из ошибок в самих компонентах.
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
+  }, [])
+
+  if (error) {
+    return <div />
+  } else if (!isLoaded) {
+    return (
+      <div />
+    );
+  } else {
+
+    if (items == true)
+      return <Tab {...tab_Announcement(`${locale.text_header[4][`text`]}, ${username}`, 4)} style = {{position: "absolute", right: 0}} disabled/>
+    else return <div />
+  }
+}
+
 
 function checkUser(username, password, locale) {
   const [error, setError] = useState(null);
@@ -117,7 +161,7 @@ export default function Home() {
           <Tab {...tab_Announcement(locale.text_header[1][`text`], 1)} />
           <Tab {...tab_Announcement(locale.text_header[2][`text`], 2)} />
           {checkUser(Cookies.get('login'), Cookies.get('password'), locale)}
-          <Tab icon={<SearchIcon />} {...tab_Announcement(locale.text_header[4][`text`], 4)} style = {{position: "absolute", right: 0}} />
+          {loginInfo(Cookies.get('login'), Cookies.get('password'), locale)}
         </Tabs>
       </AppBar>
 
@@ -135,11 +179,15 @@ export default function Home() {
         <TabPanel value={page} index={3}>
           Админка
         </TabPanel>
-        <TabPanel value={page} index={4}>
-          Поиск по сайту
-        </TabPanel>
       </article>
 
     </main_content>
   )
 }
+
+//<Tab icon={<SearchIcon />} {...tab_Announcement(locale.text_header[4][`text`], 4)} style = {{position: "absolute", right: 0}} />
+
+
+//<TabPanel value={page} index={4}>
+  //Поиск по сайту
+//</TabPanel>

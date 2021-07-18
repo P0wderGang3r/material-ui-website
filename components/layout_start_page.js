@@ -1,13 +1,18 @@
-import { DataGrid } from '@material-ui/data-grid'
-
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 
+import Cookies from 'js-cookie'
+
 export default function layout_start_page({children}) {
+
+  function nullifyCategories() {
+    Cookies.set('category_id', '')
+  }
 
   return (
     <div style = {{margin: 20}}>
+      {nullifyCategories()}
       <h1>Здравствуйте, уважаемый посетитель!</h1>
       <div>Вы находитесь на сайте-каталоге строительных товаров.</div>
       <div>Для выбора товара перейдите на страницу "Каталог", указанную выше.</div>

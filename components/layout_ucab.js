@@ -26,6 +26,10 @@ const locale_ru = require('/locales/locale-ru.json')
 
 //document.getElementById('target').innerHTML = "кекст"
 
+function nullifyCategories() {
+  Cookies.set('category_id', '')
+}
+
 //-------------------------Заголовки таблиц----------------------------
 
 function parseJSON(json, num) {
@@ -486,7 +490,8 @@ export default function layout_ucab({children}) {
   let dbTable_cart = column_cart(parseJSON(ucab_fields, 1), parseJSON(locale, 1))
 
   return (
-    <div className = {style_ucab.ucab_content} id = "target">
+    <div className = {style_ucab.ucab_content}>
+      {nullifyCategories()}
       {Cookies.get('login') != "" ? Cookies.get('login') != undefined ? main_content(locale, dbTable_ship, dbTable_cart): <div></div> : <div></div>}
 
       {login_content(locale)}

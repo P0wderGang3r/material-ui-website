@@ -28,12 +28,76 @@ import MuiDialogContent from '@material-ui/core/DialogContent'
 import MuiDialogActions from '@material-ui/core/DialogActions'
 import CloseIcon from '@material-ui/icons/Close'
 
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 const locale_ru = require('/locales/locale-ru.json')
 
 //-----------------Основные компоненты каталога------------------
 
+function chooseElements(items, category) {
+  let cat_items = []
+  let j = 0
+  if (category != '' && category != undefined)
+    for (let i = 0; i < items.length; i++) {
+      if (items[i]['category_id'] == category) {
+        cat_items[j] = items[i]
+        j++
+      }
+    }
+  else {
+    return items
+  }
+  return cat_items
+}
+
 function setToZeroNumToBuy(id){
   Cookies.set(`numToBuy_${id}`, '')
+}
+
+//-------------------Функции рисования каталога-----------------
+
+function DrawSelectors(locale) {
+  const [category, setCategory] = React.useState(0);
+
+  const handleCategorySwitch = (event) => {
+    setCategory(event.target.value)
+    console.log(event.target.value)
+
+    if (event.target.value == 0)
+      Cookies.set('category_id', '')
+    else
+      Cookies.set('category_id', event.target.value)
+
+  }
+
+  return (
+    <Card className={style_cat.cat_selectors}>
+      <h1>Фильтры:</h1>
+      <FormControl style = {{minWidth: 200, height: 40}}>
+        <InputLabel id="cat_input_label">Категория товаров</InputLabel>
+        <Select
+          labelId="cat_input_label"
+          id="cat_input"
+          value={category}
+          onChange={handleCategorySwitch}
+        >
+          <MenuItem value="" disabled>
+            <em>Выберите категорию</em>
+          </MenuItem>
+          <MenuItem value={0}>Без категории</MenuItem>
+          <MenuItem value={1}>ГКЛ, ГВЛ, ДСП,фанера</MenuItem>
+          <MenuItem value={2}>Пиломатериал, изделия из дерева</MenuItem>
+          <MenuItem value={3}>Строительные смеси</MenuItem>
+          <MenuItem value={4}>Металлопрофиль</MenuItem>
+          <MenuItem value={5}>Тепло и гидроизоляция, кровля</MenuItem>
+        </Select>
+      </FormControl>
+    </Card>
+  )
 }
 
 function DrawAllElems(card_act_area_height, locale) {
@@ -73,11 +137,11 @@ function DrawAllElems(card_act_area_height, locale) {
   } else if (!isLoaded) {
     return <LinearProgress style = {{position: "absolute", left: 0, right: 0, margin: 400}}/>;
   } else {
-
+    let cat_items = chooseElements(items, Cookies.get('category_id'))
     return (
       <div className = {style_cat.cat_content}>
         <Grid container justify="center" spacing={3}>
-          {items.map((item) => (
+          {cat_items.map((item) => (
 
             <Grid key={item.id} item>
               {setToZeroNumToBuy(item.id)}
@@ -166,5 +230,10 @@ export default function layout_catalogue({children}) {
 
   let card_act_area_height = 385
 
-  return DrawAllElems(card_act_area_height, locale)
+  return (
+    <div className = {style_cat.wrapper}>
+      {DrawSelectors(locale)}
+      {DrawAllElems(card_act_area_height, locale)}
+    </div>
+  )
 }

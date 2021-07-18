@@ -13,6 +13,10 @@ let dbnum
 let columns = []
 let numOfTable
 
+function nullifyCategories() {
+  Cookies.set('category_id', '')
+}
+
 function reParseDB(dbnum) {
   try {
   fillColumns(parseJSON(dbnum))
@@ -115,6 +119,7 @@ export default function layout_admrm({children}) {
     //rows = fillFields();
     return (
       <div>
+        {nullifyCategories()}
         <TextField label = "Номер таблицы" InputLabelProps={{ shrink: true }} id="inp-field" variant="outlined" style = {{width: 200, marginLeft: 50, marginRight: 50, marginTop: 10}}
           onChange = {() => { Cookies.set('Table_num', event.target.value); window.location.reload(); }}/>
           {fillColumns(parseJSON(Cookies.get('Table_num')))}

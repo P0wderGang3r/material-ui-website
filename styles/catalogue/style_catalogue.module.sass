@@ -2,6 +2,13 @@ $outer_block_height: 450px
 $picture_block_height: 180px
 $text_block_height: $outer_block_height - $picture_block_height
 
+.wrapper
+
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+
 .cat_content
 
   left: 0
@@ -9,9 +16,25 @@ $text_block_height: $outer_block_height - $picture_block_height
   top: 0
   bottom: 0
 
-  margin-top: 40px
+  position: absolute
+
+  margin-top: 140px
   padding-left: 100px
   padding-right: 100px
+
+.cat_selectors
+  display: flex
+  justify-content: space-around
+  position: absolute
+  align-items: baseline
+
+  left: 20%
+  right: 20%
+  height: 70px
+  margin: 35px
+
+  h1
+    color: DimGrey
 
 .outer_block_style
   width: 300px
