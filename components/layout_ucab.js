@@ -250,6 +250,67 @@ function main_content(locale, dbTable_ship, dbTable_cart) {
 
   const [isOpened, setIsOpened] = useState(false)
 
+  const [error1, setIsError1] = useState(true)
+  const [error2, setIsError2] = useState(true)
+  const [error3, setIsError3] = useState(true)
+  const [error4, setIsError4] = useState(true)
+  const [error5, setIsError5] = useState(true)
+
+  const handleError1 = () => {
+    if (event.target.value.match(`.+`)) {
+      setIsError1(false)
+      Cookies.set('time', event.target.value);
+    }
+    else {
+      setIsError1(true)
+      Cookies.set('time', '');
+    }
+  }
+
+  const handleError2 = () => {
+    if (event.target.value.match(`[a-z]*[а-я]*[A-Z]*[А-Я]*`) && event.target.value.match(`.+`) && !event.target.value.match(`.*[0-9]+.*`)) {
+      setIsError2(false)
+      Cookies.set('city', event.target.value);
+    }
+    else {
+      setIsError2(true)
+      Cookies.set('city', '');
+    }
+  }
+
+  const handleError3 = () => {
+    if (event.target.value.match(`[a-z]*[а-я]*[A-Z]*[А-Я]*`) && event.target.value.match(`.+`) && !event.target.value.match(`.*[0-9]+.*`)) {
+      setIsError3(false)
+      Cookies.set('street', event.target.value);
+    }
+    else {
+      setIsError3(true)
+      Cookies.set('street', '');
+    }
+  }
+
+  const handleError4 = () => {
+    if (event.target.value.match(`.+`)) {
+      setIsError4(false)
+      Cookies.set('building', event.target.value);
+    }
+    else {
+      setIsError4(true)
+      Cookies.set('building', '');
+    }
+  }
+
+  const handleError5 = () => {
+    if (event.target.value.match(`.+@.+[.].+`)) {
+      setIsError5(false)
+      Cookies.set('email', event.target.value);
+    }
+    else {
+      setIsError5(true)
+      Cookies.set('email', '');
+    }
+  }
+
   const submit = () => {
     fetch(`http://localhost:8000/api/cart/submit?username=${Cookies.get('login')}&password=${Cookies.get('password')}&street=${Cookies.get('street')}&building=${Cookies.get('building')}&city=${Cookies.get('city')}&date_time=${Cookies.get('time')}`, {
       method: 'POST',
@@ -257,21 +318,36 @@ function main_content(locale, dbTable_ship, dbTable_cart) {
       'Content-Type': 'application/json',
       },
     })
-    if (Cookies.get('time') != '' && Cookies.get('city') != '' && Cookies.get('street') != '' && Cookies.get('building') != '')
-      alert('Заказ успешно оформлен!')
-    else {
-      alert('В одном из полей ввода была допущена ошибка')
-    }
 
     Cookies.set('time', '')
     Cookies.set('city', '')
     Cookies.set('street', '')
     Cookies.set('building', '')
+    Cookies.set('email', '');
 
-    window.location.reload()
+    if (!(error1 & error2 & error3 & error4))
+      alert('Заказ успешно оформлен!')
+    else {
+      alert('В одном из полей ввода была допущена ошибка')
+    }
+
+    if (!(error1 & error2 & error3 & error4))
+      window.location.reload()
   }
 
   const openOrClose = () => {
+    setIsError1(true)
+      setIsError2(true)
+        setIsError3(true)
+          setIsError4(true)
+            setIsError5(true)
+
+    Cookies.set('time', '')
+    Cookies.set('city', '')
+    Cookies.set('street', '')
+    Cookies.set('building', '')
+    Cookies.set('email', '');
+
     setIsOpened(!isOpened)
   }
 
@@ -296,36 +372,49 @@ function main_content(locale, dbTable_ship, dbTable_cart) {
             {locale.text_ucab_submit[1][`text`]}
           </DialogContentText>
           <TextField
+            error={error1}
             margin="dense"
             id="time"
             type="date"
             fullWidth
-            onChange = {() => {Cookies.set('time', event.target.value);}}
+            onChange = {handleError1}
           />
           <TextField
             autoFocus
+            error={error2}
             margin="dense"
             id="city"
             label={locale.text_ucab_submit[4][`text`]}
             type="text"
             fullWidth
-            onChange = {() => {Cookies.set('city', event.target.value);}}
+            onChange = {handleError2}
           />
           <TextField
+            error={error3}
             margin="dense"
             id="street"
             label={locale.text_ucab_submit[5][`text`]}
             type="text"
             fullWidth
-            onChange = {() => {Cookies.set('street', event.target.value);}}
+            onChange = {handleError3}
           />
           <TextField
+            error={error4}
             margin="dense"
             id="building"
             label={locale.text_ucab_submit[6][`text`]}
-            type="text"
+            type="number"
             fullWidth
-            onChange = {() => {Cookies.set('building', event.target.value);}}
+            onChange = {handleError4}
+          />
+          <TextField
+            error={error5}
+            margin="dense"
+            id="email"
+            label={locale.text_ucab_submit[7][`text`]}
+            type="email"
+            fullWidth
+            onChange = {handleError5}
           />
         </DialogContent>
         <DialogActions style = {{justifyContent: "flex-start", marginLeft: 15, marginTop: 5, marginBottom: 10}}>
