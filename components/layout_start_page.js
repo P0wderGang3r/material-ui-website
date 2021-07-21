@@ -8,6 +8,7 @@ const locale_ru = require('/locales/locale-ru.json')
 
 function nullifyCategories() {
   Cookies.set('category_id', '')
+  Cookies.set('sortBy', '')
 
   Cookies.set('time', '')
   Cookies.set('city', '')

@@ -15,6 +15,7 @@ let numOfTable
 
 function nullifyCategories() {
   Cookies.set('category_id', '')
+  Cookies.set('sortBy', '')
 }
 
 function reParseDB(dbnum) {

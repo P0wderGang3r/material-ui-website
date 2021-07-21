@@ -38,6 +38,14 @@ const locale_ru = require('/locales/locale-ru.json')
 
 //-----------------Основные компоненты каталога------------------
 
+function nullifyCategories() {
+  Cookies.set('time', '')
+  Cookies.set('city', '')
+  Cookies.set('street', '')
+  Cookies.set('building', '')
+  Cookies.set('email', '')
+}
+
 function chooseElements(items, category) {
   let cat_items = []
   let j = 0
@@ -54,6 +62,47 @@ function chooseElements(items, category) {
   return cat_items
 }
 
+function selectSortByType(items, inp) {
+  let typeOf
+  let key
+  if (inp == ''){ typeOf = "title"; key = 0; }
+  if (inp == '0'){ typeOf = "title"; key = 0; }
+  if (inp == '1'){ typeOf = "title"; key = 1; }
+  if (inp == '2'){ typeOf = "price"; key = 0; }
+  if (inp == '3'){ typeOf = "price"; key = 1; }
+
+  console.log(inp)
+  console.log(typeOf)
+  console.log(key)
+
+  return sortElements(items, typeOf, key)
+}
+
+function sortElements(items, typeOf, key) {
+    let jmax = 0
+    let buf = 0
+    for (let i = 0; i < items.length; i++) {
+        jmax = i
+        for (let j = i; j < items.length; j++) {
+            if (key == 1) {
+                if (items[jmax][typeOf] < items[j][typeOf])
+                    jmax = j;
+            }
+            if (key == 0) {
+                if (items[jmax][typeOf] > items[j][typeOf])
+                    jmax = j;
+            }
+        }
+        buf = items[i];
+        items[i] = items[jmax];
+        items[jmax] = buf;
+    }
+
+  console.log(items)
+
+  return items
+}
+
 function setToZeroNumToBuy(id){
   Cookies.set(`numToBuy_${id}`, '')
 }
@@ -61,11 +110,21 @@ function setToZeroNumToBuy(id){
 //-------------------Функции рисования каталога-----------------
 
 function DrawSelectors(locale) {
+  const [sortBy, setSortBy] = React.useState(0);
   const [category, setCategory] = React.useState(0);
+
+  const handleSortBySwitch = (event) => {
+    setSortBy(event.target.value)
+
+    if (event.target.value == 0)
+      Cookies.set('sortBy', '')
+    else
+      Cookies.set('sortBy', event.target.value)
+
+  }
 
   const handleCategorySwitch = (event) => {
     setCategory(event.target.value)
-    console.log(event.target.value)
 
     if (event.target.value == 0)
       Cookies.set('category_id', '')
@@ -77,6 +136,25 @@ function DrawSelectors(locale) {
   return (
     <Card className={style_cat.cat_selectors}>
       <h1>Фильтры:</h1>
+
+      <FormControl style = {{minWidth: 200, height: 40}}>
+        <InputLabel id="cat_input_label_sort">Сортировка по:</InputLabel>
+        <Select
+          labelId="cat_input_label_sort"
+          id="cat_input_sort"
+          value={sortBy}
+          onChange={handleSortBySwitch}
+        >
+          <MenuItem value="" disabled>
+            <em>{locale.text_sortBy[0]['text']}</em>
+          </MenuItem>
+          <MenuItem value={0}>{locale.text_sortBy[1]['text']}</MenuItem>
+          <MenuItem value={1}>{locale.text_sortBy[2]['text']}</MenuItem>
+          <MenuItem value={2}>{locale.text_sortBy[3]['text']}</MenuItem>
+          <MenuItem value={3}>{locale.text_sortBy[4]['text']}</MenuItem>
+        </Select>
+      </FormControl>
+
       <FormControl style = {{minWidth: 200, height: 40}}>
         <InputLabel id="cat_input_label">Категория товаров</InputLabel>
         <Select
@@ -138,6 +216,8 @@ function DrawAllElems(card_act_area_height, locale) {
     return <LinearProgress style = {{position: "absolute", left: 0, right: 0, margin: 400}}/>;
   } else {
     let cat_items = chooseElements(items, Cookies.get('category_id'))
+    cat_items = selectSortByType(cat_items, Cookies.get('sortBy'))
+
     return (
       <div className = {style_cat.cat_content}>
         <Grid container justify="center" spacing={3}>
@@ -232,6 +312,7 @@ export default function layout_catalogue({children}) {
 
   return (
     <div className = {style_cat.wrapper}>
+      {nullifyCategories()}
       {DrawSelectors(locale)}
       {DrawAllElems(card_act_area_height, locale)}
     </div>
