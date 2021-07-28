@@ -135,7 +135,6 @@ function DrawSelectors(locale) {
 
   return (
     <Card className={style_cat.cat_selectors}>
-      <h1>Фильтры:</h1>
 
       <FormControl style = {{minWidth: 200, height: 40}}>
         <InputLabel id="cat_input_label_sort">Сортировка по:</InputLabel>
@@ -155,6 +154,8 @@ function DrawSelectors(locale) {
         </Select>
       </FormControl>
 
+      <h1>Фильтры:</h1>
+      
       <FormControl style = {{minWidth: 200, height: 40}}>
         <InputLabel id="cat_input_label">Категория товаров</InputLabel>
         <Select
