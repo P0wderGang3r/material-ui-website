@@ -195,6 +195,12 @@ function FormDialog(locale) {
       'Content-Type': 'application/json',
       },
     })
+
+    if( Cookies.get('login') != "" && Cookies.get('login') != undefined &&
+    Cookies.get('password') != "" && Cookies.get('password') != undefined)
+      alert(locale.text_ucab_login[6]['text'])
+    else
+      alert(locale.text_ucab_login[7]['text'])
   }
 
   const login = () => {
@@ -210,16 +216,16 @@ function FormDialog(locale) {
   return (
     <div>
       <Dialog open={true} aria-labelledby="form-dialog-title" id = "target_login">
-        <DialogTitle id="form-dialog-title">Вход в учетную запись</DialogTitle>
+        <DialogTitle id="form-dialog-title">{locale.text_ucab_login[0]['text']}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Для использования функционала личного кабинета вам необходимо войти в учетную запись пользователя.
+            {locale.text_ucab_login[1]['text']}
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="email"
-            label="Логин"
+            label={locale.text_ucab_login[2]['text']}
             type="email"
             fullWidth
             onChange = {() => {Cookies.set('login', event.target.value);}}
@@ -227,7 +233,7 @@ function FormDialog(locale) {
           <TextField
             margin="dense"
             id="pass"
-            label="Пароль"
+            label={locale.text_ucab_login[3]['text']}
             type="password"
             fullWidth
             onChange = {() => {Cookies.set('password', event.target.value);}}
@@ -239,10 +245,10 @@ function FormDialog(locale) {
             <CancelButton />
           </Button>
           <Button onClick={addNewUser} color="default" variant="outlined">
-            Зарегистрироваться
+            {locale.text_ucab_login[4]['text']}
           </Button>
           <Button onClick={login} color="primary" variant="outlined">
-            Войти
+            {locale.text_ucab_login[5]['text']}
           </Button>
           </ButtonGroup>
         </DialogActions>
