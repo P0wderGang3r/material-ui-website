@@ -17,7 +17,7 @@ import Cookies from 'js-cookie'
 const locale_ru = require('/locales/locale-ru.json')
 
 function loginInfo(username, password, locale) {
-    if (username != '')
+    if (username != '' && password != '' && username != undefined && password != undefined)
       return <Tab {...tab_Announcement(`${locale.text_header[4][`text`]}, ${username}`, 4)} style = {{position: "absolute", right: 0}} disabled/>
     else
       return <div />

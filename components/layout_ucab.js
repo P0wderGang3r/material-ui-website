@@ -494,7 +494,11 @@ export default function layout_ucab({children}) {
   return (
     <div className = {style_ucab.ucab_content}>
       {nullifyCategories()}
-      {Cookies.get('login') != "" ? Cookies.get('login') != undefined ? main_content(locale, dbTable_ship, dbTable_cart): <div></div> : <div></div>}
+      {Cookies.get('login') != "" ? Cookies.get('login') != undefined ?
+      Cookies.get('password') != "" ? Cookies.get('password') != undefined ?
+      main_content(locale, dbTable_ship, dbTable_cart)
+      : <div></div> : <div></div>
+      : <div></div> : <div></div>}
 
       {login_content(locale)}
     </div>
